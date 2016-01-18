@@ -3,15 +3,15 @@ var fs = require('fs');
 exports.findTrackByName = function(req, res){
     
 	var main_name = req.params.name;
-	var dir_NAS = "./media/";
+	var dir_NAS = "../mnt/nas/";
 	var main_url = dir_NAS+main_name;
 
-	res.sendFile(main_name,{root: './media/'});
+	res.sendFile(main_name,{root: '../mnt/nas/'});
 };
 
 exports.addTrack = function(req, res){
 
-	var dir_NAS = "./media/";
+	var dir_NAS = "../mnt/nas/";
 
 	if (req.method == 'POST') {
 		var fileName = '';
@@ -65,7 +65,7 @@ exports.addTrack = function(req, res){
 
 
 exports.deleteTrackByName = function(req,res){
-	var dir_NAS = "../media/";
+	var dir_NAS = "../mnt/nas/";
 	var main_name = req.params.name;
 	var main_url = dir_NAS+main_name;
 	var fs = require('fs');
