@@ -1,17 +1,20 @@
 var fs = require('fs');
 
 exports.findTrackByName = function(req, res){
-    
-	var main_name = req.params.name;
-	var dir_NAS = "../mnt/nas/";
-	var main_url = dir_NAS+main_name;
+	var findURL = req.params.name;
 
-	res.sendFile(main_name,{root: '../mnt/nas/'});
+	
+	var urlNAS = "../mnt/nas/";
+	var newURL = urlNAS+findURL;
+
+
+	res.sendFile(findURL,{root: '../mnt/nas'});
 };
 
-exports.addTrack = function(req, res){
 
-	var dir_NAS = "../mnt/nas/";
+exports.addTrack = function(req, res){
+    
+	var urlNAS = "../mnt/nas/";
 
 	if (req.method == 'POST') {
 		var fileName = '';
@@ -25,37 +28,42 @@ exports.addTrack = function(req, res){
             body += data;
            
             if (contador == 0){
-
             	var stringData = data.toString();
+
+            	
             	stringData = stringData.substr(stringData.indexOf('filename')+13);
+           
             	stringData = stringData.substr(0,stringData.indexOf('.')+4);
+                
+            	
             	filename = stringData;
             	
-            	var n_random = Math.floor((Math.random() * 100) + 1);
+            	
 
-                console.log("This file has been uploaded: " + stringData);
-
+                //para prevenir posibles errores de que no encuentre el nombre.
+                console.log("FILENAME: "+filename);
                 if (fileName == ""){
                     filename = ".mp3";
                 }
 
-            	tempName = new Date().getTime()+n_random+'_'+filename;
-            	mp3File = dir_NAS + tempName;
+            	tempName = new Date().getTime()+'_'+filename;
+            	mp3File = urlNAS + tempName;
+
+            	
             	mp3_file = fs.createWriteStream(mp3File);
+            
             	mp3_file.write(data);
             	contador++;
-
             }else{
             	mp3_file.write(data);
             }
         });
-
         req.on('end', function () {
-
-        	console.log("End of the process");
+        	console.log("TERMINADO");
 
             mp3_file.end();
             res.writeHead(200, {'Content-Type': 'text/html'});
+          
         	res.end(tempName);
         });
 
@@ -65,11 +73,14 @@ exports.addTrack = function(req, res){
 
 
 exports.deleteTrackByName = function(req,res){
-	var dir_NAS = "../mnt/nas/";
-	var main_name = req.params.name;
-	var main_url = dir_NAS+main_name;
-	var fs = require('fs');
-	fs.unlinkSync(main_url);
+    
+	var urlNAS = "../mnt/nas/";
+	var findURL = req.params.name;
+	var newURL = urlNAS+findURL;
+
+	
+	
+	fs.unlinkSync(newURL);
 	res.status(200);
-	console.log("This file has beed delated:"+main_name);
+	console.log("DELETED:"+findURL);
 };

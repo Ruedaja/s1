@@ -13,28 +13,26 @@ app.use(methodOverride());
 var track_controller = require('./controllers/tracks_controller');
 
 
-
-var landingRouter = express.Router();
-landingRouter.get('/', function(req, res){
-  res.send("API rest TRACKS");
+var page = express.Router();
+page.get('/', function(req, res){
+	res.send("API de tracks.cdpsfy.es");
 });
-app.use(landingRouter);
+app.use(page);
 
 
-/*FUNCIONES DE LA API*/
+
 var router = express.Router();
 
 router.route('/tracks')
-  .post(track_controller.addTrack);
+	.post(track_controller.addTrack);
 
 router.route('/tracks/:name')
-  .get(track_controller.findTrackByName)
-  .post(track_controller.deleteTrackByName);
+	.get(track_controller.findTrackByName)
+	.post(track_controller.deleteTrackByName);
 
-
+/***OJO, CAMBIAR LA RUTA tracks.cdpsfy.com **/
 app.use('/api', router);
 
 app.listen(3030, function() {  
-    console.log("Node server running on http://localhost:3030");
+  	console.log("Node server running on http://localhost:3030");
 });
-
