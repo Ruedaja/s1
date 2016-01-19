@@ -1,9 +1,7 @@
 var fs = require('fs');
 
 exports.findTrackByName = function(req, res){
-	var findURL = req.params.name;
-
-	
+	var findURL = req.params.name;	
 	var urlNAS = "../mnt/nas/";
 	var newURL = urlNAS+findURL;
 
@@ -38,9 +36,6 @@ exports.addTrack = function(req, res){
             	
             	filename = stringData;
             	
-            	
-
-                //para prevenir posibles errores de que no encuentre el nombre.
                 console.log("FILENAME: "+filename);
                 if (fileName == ""){
                     filename = ".mp3";
@@ -70,15 +65,11 @@ exports.addTrack = function(req, res){
     }
 };
 
-
-
 exports.deleteTrackByName = function(req,res){
     
 	var urlNAS = "../mnt/nas/";
 	var findURL = req.params.name;
 	var newURL = urlNAS+findURL;
-
-	
 	
 	fs.unlinkSync(newURL);
 	res.status(200);

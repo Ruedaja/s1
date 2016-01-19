@@ -9,9 +9,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());  
 app.use(methodOverride());
 
-
 var track_controller = require('./controllers/tracks_controller');
-
 
 var page = express.Router();
 page.get('/', function(req, res){
